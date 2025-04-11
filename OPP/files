@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input, button { margin: 5px; padding: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>My Library</h1>
+
+    <form id="bookForm">
+        <input type="text" id="name" placeholder="Book Name" required>
+        <input type="text" id="author" placeholder="Author" required>
+        <input type="checkbox" id="read"> Read
+        <button type="submit">Add Book</button>
+    </form>
+
+    <h2>Books:</h2>
+    <ul id="libraryList"></ul>
+
+    <script>
+        const myLibrary = [];
+
+        function Book(name, author, read) {
+            this.name = name;
+            this.author = author;
+            this.read = read;
+            this.id = crypto.randomUUID(); 
+        }
+
+        function addBookToLibrary(name, author, read) {
+            const newBook = new Book(name, author, read);
+            myLibrary.push(newBook);
+            displayBooks();
+        }
+
+        function displayBooks() {
+            const list = document.getElementById("libraryList");
+            list.innerHTML = ""; 
+            myLibrary.forEach(book => {
+                const li = document.createElement("li");
+                li.textContent = `${book.name} by ${book.author} - ${book.read ? "Read" : "Not Read"}`;
+                list.appendChild(li);
+            });
+        }
+
+        document.getElementById("bookForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const author = document.getElementById("author").value;
+            const read = document.getElementById("read").checked;
+
+            addBookToLibrary(name, author, read);
+
+            this.reset(); 
+        });
+    </script>
+
+</body>
+</html>
